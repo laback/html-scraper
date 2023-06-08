@@ -1,0 +1,38 @@
+<html>
+<head>
+    <title> Sport event </title>
+    <link rel="stylesheet" type="text/css" href="../../static/css/table.css" />
+    <script src="../../static/js/table.js"></script>
+</head>
+
+<body>
+    <table id="eventsTable" class="styled-table">
+        <thead>
+            <tr>
+                <th>
+                    <button class="sort-button" onclick="sortTable()">Start time</button>
+                </th>
+                <th>First team</th>
+                <th>Second team</th>
+                <th>Tournament</th>
+                <th>Sport type</th>
+                <th>Link</th>
+            </tr>
+        </thead>
+        <tbody>
+            #foreach($event in $events)
+                <tr>
+                     <td>$event.getStartTime()</td>
+                     <td>$event.getFirstTeam()</td>
+                     <td>$event.getSecondTeam()</td>
+                     <td>$event.getTournament()</td>
+                     <td>$event.getSportType()</td>
+                     <td>
+                        <a href="$event.getLink()">Go to event</a>
+                    </td>
+                </tr>
+            #end
+        </tbody>
+    </table>
+</body>
+</html>
