@@ -4,8 +4,9 @@ import org.jsoup.nodes.Document;
 import test.task.model.SportEvent;
 
 import java.util.List;
+import java.util.Set;
 
 public interface HtmlScraper {
 
-    List<SportEvent> parse(Document htmlPage);
+    Set<SportEvent> parse(Document htmlPage);
 }

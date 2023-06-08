@@ -5,9 +5,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import test.task.model.SportEvent;
+import test.task.util.Constants;
 
 import java.time.LocalTime;
-import java.util.List;
+import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
@@ -16,13 +17,13 @@ public class BetbonanzaHtmlScraper implements HtmlScraper {
     Function<Elements, Integer> buttonElementPosition = events -> events.size() - 1;
 
     @Override
-    public List<SportEvent> parse(Document htmlPage) {
-        var events = htmlPage.select("td.std-pd.pt-10");
+    public Set<SportEvent> parse(Document htmlPage) {
+        var events = htmlPage.select(Constants.EVENTS_QUERY);
         events.remove((int) buttonElementPosition.apply(events));
         return events
                 .stream()
                 .map(this::parseHtmlEventToSportEvent)
-                .collect(Collectors.toList());
+                .collect(Collectors.toSet());
     }
 
     private SportEvent parseHtmlEventToSportEvent(Element element) {
@@ -42,7 +43,7 @@ public class BetbonanzaHtmlScraper implements HtmlScraper {
         var tournament = StringUtils.substringAfterLast(metadata, "/").trim();
         var sportType = StringUtils.substringBefore(metadata, "/").trim();
 
-        var link = element.getElementsByTag("a").first().attr("href");
+        var link = Constants.GET_URL.apply(element);
 
         return new SportEvent(startTime, firstTeam, secondTeam, tournament, sportType, link);
     }
